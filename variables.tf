@@ -14,5 +14,5 @@ variable "image" {
 
 variable "environment" {
   type    = string
-  default = "prod"
+  default = "dev"
 }
