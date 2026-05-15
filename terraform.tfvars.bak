@@ -1,0 +1,5 @@
+project_id = "summer-music-496405-i6"
+region     = "us-central1"
+
+image       = "gcr.io/cloudrun/hello"
+environment = "dev"
