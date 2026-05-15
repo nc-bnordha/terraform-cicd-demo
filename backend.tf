@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "nc-terraform-bootstrap-demo-01-tfstate"
+    bucket = "nc-terraform-cloudrun-demo-03-tfstate"
     prefix = "cloudrun-demo"
   }
 }

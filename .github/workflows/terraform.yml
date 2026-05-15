@@ -17,8 +17,8 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: projects/801348592277/locations/global/workloadIdentityPools/github-pool/providers/github-provider
-          service_account: github-sa@nc-terraform-bootstrap-demo-01.iam.gserviceaccount.com
-          project_id: nc-terraform-cloudrun-demo-01
+          service_account: github-sa@nc-terraform-bootstrap-demo-02.iam.gserviceaccount.com
+          project_id: nc-terraform-cloudrun-demo-03
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
@@ -34,7 +34,7 @@ jobs:
 
       - name: Terraform Plan
         env:
-          TF_VAR_project_id: nc-terraform-cloudrun-demo-01
+          TF_VAR_project_id: nc-terraform-cloudrun-demo-03
         run: terraform plan -out=tfplan
 
       - name: Upload Terraform Plan
@@ -60,8 +60,8 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: projects/801348592277/locations/global/workloadIdentityPools/github-pool/providers/github-provider
-          service_account: github-sa@nc-terraform-bootstrap-demo-01.iam.gserviceaccount.com
-          project_id: nc-terraform-cloudrun-demo-01
+          service_account: github-sa@nc-terraform-bootstrap-demo-02.iam.gserviceaccount.com
+          project_id: nc-terraform-cloudrun-demo-03
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
@@ -76,5 +76,5 @@ jobs:
 
       - name: Terraform Apply
         env:
-          TF_VAR_project_id: nc-terraform-cloudrun-demo-01
+          TF_VAR_project_id: nc-terraform-cloudrun-demo-03
         run: terraform apply -auto-approve tfplan
