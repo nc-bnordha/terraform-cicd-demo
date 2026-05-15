@@ -1,8 +1,21 @@
-provider "google" {
-  region = var.region
+terraform {
+  required_version = ">= 1.5"
+
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 6.0"
+    }
+  }
 }
 
-data "google_client_config" "current" {}
+provider "google" {
+  project = var.project_id
+  region  = var.region
+}
+
+
+
 
 resource "google_cloud_run_v2_service" "demo" {
   name     = "terraform-cloudrun-demo"
@@ -10,11 +23,11 @@ resource "google_cloud_run_v2_service" "demo" {
 
   template {
     containers {
-      image = "gcr.io/cloudrun/hello"
+      image = var.image
 
       env {
-        name  = "PROJECT_ID"
-        value = data.google_client_config.current.project
+        name  = "ENVIRONMENT"
+        value = var.environment
       }
     }
   }

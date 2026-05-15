@@ -30,6 +30,8 @@ jobs:
         run: terraform validate
 
       - name: 'Terraform Plan'
+        env:
+          TF_VAR_project_id: summer-music-496405-i6
         run: terraform plan -out=tfplan
 
       - name: 'Upload Terraform Plan'
@@ -70,4 +72,6 @@ jobs:
           name: tfplan
 
       - name: 'Terraform Apply'
+        env:
+          TF_VAR_project_id: summer-music-496405-i6
         run: terraform apply -auto-approve tfplan
