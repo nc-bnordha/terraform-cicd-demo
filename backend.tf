@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "summer-music-496405-i6-tfstate"
+    bucket = "nc-terraform-bootstrap-demo-01-tfstate"
     prefix = "cloudrun-demo"
   }
 }
