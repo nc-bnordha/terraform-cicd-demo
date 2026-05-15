@@ -1,27 +1,73 @@
-name: Terraform using GCP Identify Federation for GitHub Action
+name: Terraform using GCP Identity Federation for GitHub Actions
+
 on: [push]
 
 jobs:
-  cloudrun:
+  plan:
     permissions:
       contents: 'read'
       id-token: 'write'
+
     runs-on: ubuntu-latest
 
     steps:
-    # actions/checkout MUST come before auth
-    - uses: 'actions/checkout@v3'
-  
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1'
-      # Update the values with the output from the setup step
-      with:
-        workload_identity_provider: projects/783768662893/locations/global/workloadIdentityPools/github-pool/providers/github-provider
-        service_account: github-sa@summer-music-496405-i6.iam.gserviceaccount.com
+      - uses: 'actions/checkout@v4'
 
-    - id: 'deploy'
-      uses: 'google-github-actions/deploy-cloudrun@v1'
-      with:
-        service: 'hello-cloud-run'
-        image: 'gcr.io/cloudrun/hello'
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: projects/783768662893/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github-sa@summer-music-496405-i6.iam.gserviceaccount.com
+
+      - name: 'Set up Terraform'
+        uses: 'hashicorp/setup-terraform@v3'
+
+      - name: 'Terraform Init'
+        run: terraform init
+
+      - name: 'Terraform Validate'
+        run: terraform validate
+
+      - name: 'Terraform Plan'
+        run: terraform plan -out=tfplan
+
+      - name: 'Upload Terraform Plan'
+        uses: 'actions/upload-artifact@v4'
+        with:
+          name: tfplan
+          path: tfplan
+
+  apply:
+    needs: plan
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: 'actions/checkout@v4'
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: projects/783768662893/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github-sa@summer-music-496405-i6.iam.gserviceaccount.com
+
+      - name: 'Set up Terraform'
+        uses: 'hashicorp/setup-terraform@v3'
+
+      - name: 'Terraform Init'
+        run: terraform init
+
+      - name: 'Download Terraform Plan'
+        uses: 'actions/download-artifact@v4'
+        with:
+          name: tfplan
+
+      - name: 'Terraform Apply'
+        run: terraform apply -auto-approve tfplan
