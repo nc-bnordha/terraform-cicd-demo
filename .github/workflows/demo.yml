@@ -19,6 +19,7 @@ jobs:
         with:
           workload_identity_provider: projects/783768662893/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: github-sa@summer-music-496405-i6.iam.gserviceaccount.com
+          token_format: access_token
 
       - name: 'Set up Terraform'
         uses: 'hashicorp/setup-terraform@v3'
@@ -59,6 +60,7 @@ jobs:
         with:
           workload_identity_provider: projects/783768662893/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: github-sa@summer-music-496405-i6.iam.gserviceaccount.com
+          token_format: access_token
 
       - name: 'Set up Terraform'
         uses: 'hashicorp/setup-terraform@v3'
