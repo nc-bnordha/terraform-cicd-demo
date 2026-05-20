@@ -1,18 +1,20 @@
 variable "project_id" {
-  type = string
+  description = "The GCP project ID to deploy to."
+  type        = string
 }
 
 variable "region" {
-  type    = string
-  default = "us-central1"
+  description = "The GCP region to deploy resources in."
+  type        = string
+  default     = "us-central1"
 }
 
 variable "image" {
-  type    = string
-  default = "gcr.io/cloudrun/hello"
+  description = "The container image to deploy."
+  type        = string
 }
 
 variable "environment" {
-  type    = string
-  default = "prod"
+  description = "The name of the environment (e.g., dev, prod)."
+  type        = string
 }
