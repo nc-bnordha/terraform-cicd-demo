@@ -12,10 +12,11 @@ variable "region" {
 variable "image" {
   description = "The container image to deploy."
   type        = string
+  default     = "gcr.io/cloudrun/hello"
 }
 
 variable "environment" {
   description = "The name of the environment (e.g., dev, prod)."
   type        = string
-  default = "dev"
+  default     = "dev"
 }
